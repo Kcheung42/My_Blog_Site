@@ -1,0 +1,67 @@
+{# Called by django_config/urls.py #}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+
+{% block head_title %}
+Post Detail
+{% endblock head_title %}
+
+{% block body_class %}
+col-sm-6 col-sm-offset-3
+{% endblock body_class %}
+
+{% block body %}
+<div id="react-root"></div>
+
+{% if instance.image %}
+	<img src="{{ instance.image.url }}" class="img-responsive">
+{% endif %}
+
+<h1>{{ title }} <small>{% if  instance.draft %}<span style='color:red;'>Draft</span>{% endif  %} {{ instance.publish }}</small></h1>
+{% if instance.user.get_full_name %}
+	<p>Author: {{ instance.user.get_full_name }}</p>
+{% endif %}
+
+<p>
+<div class="fb-like" data-href={{ request.build_absolute_uri }} data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+</p>
+<hr>
+
+{# <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"> #}
+{# Facebook #}
+{# </a> #}
+{#  #}
+{# <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}"> #}
+{# Twitter #}
+{# </a> #}
+{#  #}
+{# <a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> #}
+{#  #}
+{# <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}"> #}
+{# Linkedin #}
+{# </a> #}
+{# <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}.">Reddit</a> #}
+
+<div class='content-markdown'> {{ instance.content }}</div><br/>
+<hr>
+<br>
+<div class='col-sm-12'>
+	Last Updated: {{ instance.updated }}<br/>
+	<div>
+		<p class='lead'>Comments</p>
+		{% for comment in comments %}
+			<div class=''>
+				{{ comment.content }}
+				<br/>
+				<small>from {{ comment.user }} on {{ comment.timestamp | timesince }}</small>
+				<hr>
+			</div>
+		{% endfor %}
+	</div>
+	{# <div class="fb-comments" data-href={{ request.build_absolute_uri }} data-numposts="5"></div> #}
+	<a href="{% url 'posts:list'%}" class="btn btn-primary" role="button">Go Back</a>
+</div>
+{# {% render_bundle 'vendors' %} #}
+{# {% render_bundle 'Index' %} #}
+{% endblock body %}
