@@ -74,6 +74,7 @@ THIRD_PARTY_APPS = [
 	'webpack_loader',
 	'corsheaders',
 	'pagedown',
+	'markdown_deux',
 ]
 
 LOCAL_APPS = [

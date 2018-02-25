@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 import logging
+from markdown_deux import markdown
+from django.utils.safestring import mark_safe #turn strings to safe (render as html)
 
 
 class PostManager(models.Manager): #allows us to ovewrite default model Manger functions i.e objects.all() objects.create()
@@ -54,6 +56,10 @@ class Post(models.Model):
 	class Meta:
 		ordering = ["-timestamp", "-updated"]
 
+	def get_markdown(self): #use mardown-deux library to return markdown of content
+		content = self.content
+		markdown_text = markdown(content)
+		return mark_safe(markdown_text)
 
 # Adding Slugs: Note! Must change all id in .views to slug
 def create_slug(instance, new_slug=None):

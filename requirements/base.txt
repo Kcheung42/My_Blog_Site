@@ -25,3 +25,4 @@ pytz==2016.10
 
 pillow
 django-pagedown
+django-markdown-deux

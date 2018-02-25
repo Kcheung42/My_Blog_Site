@@ -28,14 +28,13 @@ col-sm-6 col-sm-offset-3
 {# <a href='/post/{{ obj.id }}'>{{ obj.title }}</a></br> #}
 {# <a href='{% url "Post:detail_url" id=obj.id %}'>{{ obj.title }}</a></br> #}
 
-
 <div class="row">
 	<div class="col-sm-12">
 		<div class="thumbnail">
 			{% if obj.image %}
 				<img src="{{ obj.image.url }}" class="img-responsive">
 			{% endif %}
-			<div class="caption">
+			<div class="caption post-detail-item">
 				<h3>
 					<a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
 					<small>
@@ -48,7 +47,7 @@ col-sm-6 col-sm-offset-3
 				{% if request.user.get_full_name %}
 					<p>Author: {{ request.user.get_full_name }}</p>
 				{% endif %}
-				<p class='content-markdown'> {{ obj.content }}</p><br/>
+				{{ obj.get_markdown | truncatechars_html:10 }}<br/>
 				<p>
 					<a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a>
 					{% if request.user.is_staff or request.user.is_superuser %}

@@ -43,7 +43,7 @@ col-sm-6 col-sm-offset-3
 {# </a> #}
 {# <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}.">Reddit</a> #}
 
-<div class='content-markdown'> {{ instance.content }}</div><br/>
+<div class='post-detail-item'> {{ instance.get_markdown }}</div><br/>
 <hr>
 <br>
 <div class='col-sm-12'>
