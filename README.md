@@ -17,7 +17,7 @@ https://www.docker.com/community-edition#/download
 
 ## Setup Local Environment
 
-1. Create .env file
+1. Create .env file or rename .envDev to .env
  
 ###### Here's a Sample:
 ```
