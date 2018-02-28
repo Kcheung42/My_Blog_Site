@@ -6,7 +6,7 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 11:03:35 by kcheung           #+#    #+#             //
-//   Updated: 2018/01/15 11:06:29 by kcheung          ###   ########.fr       //
+//   Updated: 2018/02/26 18:56:26 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,9 +17,9 @@ import Todo from './Todo'
 
 const TodoList = ({ todos, onTodoClick }) => (
 	<ul>
-	{todos.map(todo => (
-		<Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo.id)} />
-	))}
+		{todos.map(todo => (
+			<Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo.id)} />
+		))}
 	</ul>
 )
 

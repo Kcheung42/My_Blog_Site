@@ -4,20 +4,20 @@
 {% load render_bundle from webpack_loader %}
 
 {% block body_class %}
-col-sm-6 col-sm-offset-3
+	col-sm-6 col-sm-offset-3
 {% endblock body_class %}
 
 {% block head_title %}
-Django Index
+	Django Index
 {% endblock head_title %}
 
 {% block body %}
-<h1>{{ title }}</h1>
+	<h1>{{ title }}</h1>
 
-<div id="react-root"></div>
-{% render_bundle 'vendors' %}
-{% render_bundle 'Index' %}
-<div>
-	<a href={% url 'posts:list' %}>Go To Blog</a>
-</div>
+	<div id="react-root"></div>
+	{% render_bundle 'vendors' %}
+	{% render_bundle 'Index' %}
+	<div>
+		<a href={% url 'posts:list' %}>Go To Blog</a>
+	</div>
 {% endblock body %}

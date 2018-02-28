@@ -6,7 +6,7 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 11:14:46 by kcheung           #+#    #+#             //
-//   Updated: 2018/01/17 13:18:57 by kcheung          ###   ########.fr       //
+//   Updated: 2018/02/26 19:05:16 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -57,4 +57,5 @@ render(
 	<Provider store={store}>
 		<App1Container />
 	</Provider>,
-	document.getElementById('react-root'))
+	document.getElementById('react-root')
+)

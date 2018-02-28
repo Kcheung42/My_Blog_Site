@@ -4,93 +4,93 @@
 {% load render_bundle from webpack_loader %}
 
 {% block head_title %}
-MyFirstBlog
+	MyFirstBlog
 {% endblock head_title %}
 
 {% block body_class %}
-col-sm-6 col-sm-offset-3
+	col-sm-6 col-sm-offset-3
 {% endblock body_class %}
 
 {% block body %}
-<div id="react-root"></div>
-<h1>{{ title }}</h1>
+	<div id="react-root"></div>
+	<h1>{{ title }}</h1>
 
-<form action="" method="GET" >
-	<input type="text" placeholder='Search posts' name=q value='{{ request.GET.q }}'>
-	<input type="submit" value='Search'>
-	{% if request.user.is_staff or request.user.superuser %}
-	<a href={% url 'posts:create' %} class="btn btn-primary" role="button">Add</a>
-	{% endif %}
-</form>
+	<form action="" method="GET" >
+		<input type="text" placeholder='Search posts' name=q value='{{ request.GET.q }}'>
+		<input type="submit" value='Search'>
+		{% if request.user.is_staff or request.user.superuser %}
+			<a href={% url 'posts:create' %} class="btn btn-primary" role="button">Add</a>
+		{% endif %}
+	</form>
 
-{% for obj in object_list %}
-{# Three ways to do Links #}
-{# <a href='/post/{{ obj.id }}'>{{ obj.title }}</a></br> #}
-{# <a href='{% url "Post:detail_url" id=obj.id %}'>{{ obj.title }}</a></br> #}
+	{% for obj in object_list %}
+		{# Three ways to do Links #}
+		{# <a href='/post/{{ obj.id }}'>{{ obj.title }}</a></br> #}
+		{# <a href='{% url "Post:detail_url" id=obj.id %}'>{{ obj.title }}</a></br> #}
 
-<div class="row">
-	<div class="col-sm-12">
-		<div class="thumbnail">
-			{% if obj.image %}
-				<img src="{{ obj.image.url }}" class="img-responsive">
-			{% endif %}
-			<div class="caption post-detail-item">
-				<h3>
-					<a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
-					<small>
-						{{ obj.publish }}
-						{% if obj.draft %}
-							<span style="color:red;">Draft</span>
-						{% endif %}
-					</small>
-				</h3>
-				{% if request.user.get_full_name %}
-					<p>Author: {{ request.user.get_full_name }}</p>
-				{% endif %}
-				{{ obj.get_markdown | truncatechars_html:10 }}<br/>
-				<p>
-					<a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a>
-					{% if request.user.is_staff or request.user.is_superuser %}
-						<a href="{{ obj.get_edit_url }}" class="btn btn-primary" role="button">Edit</a>
-						<a href="{{ obj.get_delete_url }}" class="btn btn-primary" role="button">Delete</a>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="thumbnail">
+					{% if obj.image %}
+						<img src="{{ obj.image.url }}" class="img-responsive">
 					{% endif %}
-				</p>
+					<div class="caption post-detail-item">
+						<h3>
+							<a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
+							<small>
+								{{ obj.publish }}
+								{% if obj.draft %}
+									<span style="color:red;">Draft</span>
+								{% endif %}
+							</small>
+						</h3>
+						{% if request.user.get_full_name %}
+							<p>Author: {{ request.user.get_full_name }}</p>
+						{% endif %}
+						{{ obj.get_markdown | truncatechars_html:10 }}<br/>
+						<p>
+						<a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a>
+						{% if request.user.is_staff or request.user.is_superuser %}
+							<a href="{{ obj.get_edit_url }}" class="btn btn-primary" role="button">Edit</a>
+							<a href="{{ obj.get_delete_url }}" class="btn btn-primary" role="button">Delete</a>
+						{% endif %}
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
 
-{# {% cycle "" "<div class='col-sm-12'><hr/></div></div><div class='row'>"%} #}
+		{# {% cycle "" "<div class='col-sm-12'><hr/></div></div><div class='row'>"%} #}
 
-{# Old way #}
-{# <a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></br> #}
-{# URL: {% url "posts:detail" id=obj.id %}<br/> #}
-{# Id: {{ obj.id }}<br/> #}
-{# Content: {{ obj.content|linebreaks|truncatechars:120 }}<br/> #}
-{# Timestamp: {{ obj.timestamp }}<br/> #}
-{# Updated: {{ obj.updated }}<br/> #}
+		{# Old way #}
+		{# <a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></br> #}
+		{# URL: {% url "posts:detail" id=obj.id %}<br/> #}
+		{# Id: {{ obj.id }}<br/> #}
+		{# Content: {{ obj.content|linebreaks|truncatechars:120 }}<br/> #}
+		{# Timestamp: {{ obj.timestamp }}<br/> #}
+		{# Updated: {{ obj.updated }}<br/> #}
 
-{% endfor %}
+	{% endfor %}
 
-{# Code for Pagination from django docs. Replaced 'page' with page_request_var #}
-<div class="pagination">
-	<span class="step-links">
-		{% if object_list.has_previous %}
-		<a href="?{{ page_request_var }}=1">&laquo; first</a>
-		<a href="?{{ page_request_var }}={{ object_list.previous_page_number }}&q={{ request.GET.q }}">previous</a>
-		{% endif %}
+	{# Code for Pagination from django docs. Replaced 'page' with page_request_var #}
+	<div class="pagination">
+		<span class="step-links">
+			{% if object_list.has_previous %}
+				<a href="?{{ page_request_var }}=1">&laquo; first</a>
+				<a href="?{{ page_request_var }}={{ object_list.previous_page_number }}&q={{ request.GET.q }}">previous</a>
+			{% endif %}
 
-		<span class="current">
-			Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+			<span class="current">
+				Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+			</span>
+
+			{% if object_list.has_next %}
+				<a href="?{{ page_request_var }}={{ object_list.next_page_number }}&q={{ request.GET.q }}">next</a>
+				<a href="?{{ page_request_var }}={{ object_list.paginator.num_pages }}&q={{ request.GET.q }}">last &raquo;</a>
+			{% endif %}
 		</span>
+	</div>
 
-		{% if object_list.has_next %}
-		<a href="?{{ page_request_var }}={{ object_list.next_page_number }}&q={{ request.GET.q }}">next</a>
-		<a href="?{{ page_request_var }}={{ object_list.paginator.num_pages }}&q={{ request.GET.q }}">last &raquo;</a>
-		{% endif %}
-	</span>
-</div>
-
-{% render_bundle 'vendors' %}
-{% render_bundle 'Index' %}
+	{% render_bundle 'vendors' %}
+	{% render_bundle 'Index' %}
 {% endblock body %}

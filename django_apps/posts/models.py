@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
-from django.core.urlresolvers import reverse
-from django.db.models.signals import pre_save
-from django.utils.text import slugify
-from django.utils import timezone
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-import logging
-from markdown_deux import markdown
+from django.core.urlresolvers import reverse
+from django.db import models
+from django.db.models.signals import pre_save
+from django.utils import timezone #used for publish date
 from django.utils.safestring import mark_safe #turn strings to safe (render as html)
-
+from django.utils.text import slugify
+from django_apps.comments.models import Comment #create @property of Post access comments
+from markdown_deux import markdown #third party library
+import logging
 
 class PostManager(models.Manager): #allows us to ovewrite default model Manger functions i.e objects.all() objects.create()
 	def active(self, *args, **kwargs):
@@ -21,10 +21,11 @@ def upload_location(instance, filename):
 	return "%s/%s" %(instance.id, filename)
 
 # Create your models here.
+
 class Post(models.Model):
-	user		= models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+	user		= models.ForeignKey(settings.AUTH_USER_MODEL, default=1) #
 	title		= models.CharField(max_length=120)
-	slug		= models.SlugField(unique=True)
+	slug		= models.SlugField(unique=True) #slugs are used to make urls friendly to read
 	image		= models.ImageField(null=True, blank=True,
 							height_field="img_height",
 							width_field="img_width",
@@ -60,6 +61,18 @@ class Post(models.Model):
 		content = self.content
 		markdown_text = markdown(content)
 		return mark_safe(markdown_text)
+
+	@property
+	def comments(self):
+		instance = self
+		qs = Comment.objects.filter_by_instance(instance) # see Comment's Model Manger
+		return qs
+
+	@property
+	def content_type(self):
+		instance = self
+		contentType = ContentType.objects.get_for_model(instance.__class__) #return content type of of the current instance
+		return contentType
 
 # Adding Slugs: Note! Must change all id in .views to slug
 def create_slug(instance, new_slug=None):

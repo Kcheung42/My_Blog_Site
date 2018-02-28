@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .forms import PostForm
-from .models import Post
-from .serializers import PostDetailSerializer, PostListSerializer
+
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django_apps.comments.forms import CommentForm
+from django_apps.comments.models import Comment
+from django_apps.posts.forms import PostForm
+from django_apps.posts.models import Post
+from django_apps.posts.serializers import PostDetailSerializer, PostListSerializer
 from urllib.parse import quote_plus #used for creating share strings
 from rest_framework.generics import (
 	ListAPIView,
@@ -16,17 +20,14 @@ from rest_framework.generics import (
 	DestroyAPIView,
 	UpdateAPIView,
 )
-from django.contrib.contenttypes.models import ContentType
-from django_apps.comments.models import Comment
 
 # Create your views here.
 
-def post_create(request): #C
+def post_create(request): #Create
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404
 	form = PostForm(request.POST or None, request.FILES or None) #Built in validation from forms
 	if form.is_valid(): #if all fields filled out then save
-		# print(form.cleaned_data.get("title")) #print field
 		instance = form.save(commit=False)
 		instance.user = request.user
 		instance.save()
@@ -38,20 +39,54 @@ def post_create(request): #C
 	}
 	return render(request, "post_form.html", context)
 
-def post_detail(request, slug=None): #R
+def post_detail(request, slug=None): #Retrieve
 	instance = get_object_or_404(Post, slug=slug)
-	share_string = quote_plus(instance.content)
-	content_type = ContentType.objects.get_for_model(Post)
-	obj_id = instance.id
-	comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)
 	if instance.publish > timezone.now().date() or instance.draft:
 		if not request.user.is_staff or not request.user.is_superuser:
 			raise Http404
+	share_string = quote_plus(instance.content)
+
+	initial_data = {
+		"content_type" : instance.content_type, #get_content_type is a property of Post's Model
+		"object_id": instance.id,
+	}
+	form = CommentForm(request.POST or None, initial=initial_data)
+	if form.is_valid():
+		c_type					= form.cleaned_data.get("content_type") #comes from initial_data
+		content_type			= ContentType.objects.get(model=c_type) #get type from initial_data
+		obj_id					= form.cleaned_data.get("object_id")
+		content_data			= form.cleaned_data.get("content")
+		parent_obj				= None
+
+		try:
+			parent_id = int(request.POST.get("parent_id"))
+		except:
+			parent_id = None
+		if parent_id:
+			print('here!')
+			parent_qs = Comment.objects.filter(id=parent_id)
+			if parent_qs.exists() and parent_qs.count() == 1:
+				parent_obj = parent_qs[0] #can also use .first()
+
+		new_comment, created	= Comment.objects.update_or_create(
+			user = request.user,
+			content_type = content_type,
+			object_id = obj_id,
+			content = content_data,
+			timestamp = timezone.now(),
+			parent = parent_obj
+		)
+		return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
+		if created:
+			print("yearh it worked")
+
+	comments = instance.comments
 	context = {
 		"title" : instance.title,
 		"instance" : instance,
 		"share_string" : share_string,
 		"comments" : comments,
+		"comment_form" : form
 	}
 	return render(request, "post_detail.html", context)
 
@@ -84,7 +119,7 @@ def post_list(request):
 	}
 	return render(request, "post_list.html", context)
 
-def post_update(request, slug=None): #U
+def post_update(request, slug=None): #Update
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404
 	instance = get_object_or_404(Post, slug=slug)
@@ -102,7 +137,7 @@ def post_update(request, slug=None): #U
 	}
 	return render(request, "post_form.html", context)
 
-def post_delete(request, slug=None): #D
+def post_delete(request, slug=None): #Delete
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404
 	instance = get_object_or_404(Post, slug=slug)

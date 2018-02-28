@@ -21,10 +21,10 @@ export class Toggle extends React.Component{
 
 	render(){
 		return(
-				<Button
-					label={this.state.isShowing ? 'Test: ON': 'Test: OFF'}
-					handleClick={this.handleClick}>
-				</Button>
-				)
+			<Button
+				label={this.state.isShowing ? 'Test: ON': 'Test: OFF'}
+				handleClick={this.handleClick}>
+			</Button>
+		)
 	}
 }

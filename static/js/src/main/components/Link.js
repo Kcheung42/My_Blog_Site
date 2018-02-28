@@ -6,7 +6,7 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 11:11:44 by kcheung           #+#    #+#             //
-//   Updated: 2018/01/15 11:11:46 by kcheung          ###   ########.fr       //
+//   Updated: 2018/02/26 18:56:20 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -20,13 +20,13 @@ const Link = ({ active, children, onClick }) => {
 
 	return (
 		<a
-		href="#"
-		onClick={e => {
-			e.preventDefault()
-			onClick()
-		}}
+			href="#"
+			onClick={e => {
+				e.preventDefault()
+				onClick()
+			}}
 		>
-		{children}
+			{children}
 		</a>
 	)
 }

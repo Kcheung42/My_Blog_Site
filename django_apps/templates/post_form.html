@@ -4,34 +4,33 @@
 {% load render_bundle from webpack_loader %}
 
 {% block head_title %}
-MyFirstBlog: Create Post
+	MyFirstBlog: Create Post
 {% endblock head_title %}
 
 {% block head_extra %}
-{{ form.media }}
+	{{ form.media }}
 {% endblock head_extra %}
 
 
 {% block body_class %}
-col-sm-6 col-sm-offset-3
+	col-sm-6 col-sm-offset-3
 {% endblock body_class %}
 
 {% block body %}
-<div id="react-root"></div>
-<div class='col-sm-6'>
-	<h1>Preview</h1>
-	<div class='content-preview'>
-		<h3 id='preview-title'></h3>
-		<p id='preview-content'></p>
+	<div id="react-root"></div>
+	<div class='col-sm-6'>
+		<h1>Preview</h1>
+		<div class='content-preview'>
+			<h3 id='preview-title'></h3>
+			<p id='preview-content'></p>
+		</div>
 	</div>
-</div>
-<div class='col-sm-6'>
-	<h1>Form</h1>
-	<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %} {# must have csrf token Validation #}
-		{{ form.as_p }}
-		<input type='submit' value={{ type }} />
-	</form>
-	<a href="{% url 'posts:list'%}" class="btn btn-primary" role="button">Go Back</a>
-</div>
-
+	<div class='col-sm-6'>
+		<h1>Form</h1>
+		<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %} {# must have csrf token Validation #}
+			{{ form.as_p }}
+			<input type='submit' value={{ type }} />
+		</form>
+		<a href="{% url 'posts:list'%}" class="btn btn-primary" role="button">Go Back</a>
+	</div>
 {% endblock body %}
