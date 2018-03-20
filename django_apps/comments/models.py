@@ -17,14 +17,16 @@ class CommentManager(models.Manager): #allows us to use instance of Post to get 
 		return qs
 
 class Comment(models.Model):
-	# Set up generic foreignkey very beginning or it will break your Database
-	user			= models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
-	#setting up with GFkey allows us to use Comments app in other apps
+	# Fields
 	content			= models.TextField()
-	content_object	= GenericForeignKey('content_type', 'object_id') #this is the instance of Post object
+	timestamp		= models.DateTimeField(auto_now_add=True)
+
+	# Relationship Fields
+	#setting up with GFkey allows us to use Comments app in other apps
+	user			= models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
 	content_type	= models.ForeignKey(ContentType, on_delete=models.CASCADE)
 	object_id		= models.PositiveIntegerField() #id of the Post it belongs to
-	timestamp		= models.DateTimeField(auto_now_add=True)
+	content_object	= GenericForeignKey('content_type', 'object_id') #this is the instance of Post object
 	parent			= models.ForeignKey("self", null=True, blank=True)
 
 	objects = CommentManager()

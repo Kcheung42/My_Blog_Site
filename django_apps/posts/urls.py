@@ -1,8 +1,6 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import (
-	PostDetailAPIView,
-	PostListAPIView,
 	post_create,
 	post_delete,
 	post_detail,
@@ -18,8 +16,6 @@ urlpatterns = [
 	url(r'^(?P<slug>[\w-]+)/$', post_detail, name='detail'),
 	url(r'^(?P<slug>[\w-]+)/delete/$', post_delete, name='delete'),
 	url(r'^(?P<slug>[\w-]+)/edit/$', post_update, name='edit'),
-	url(r'^api/$', PostListAPIView.as_view(), name='list-api'),
-	url(r'^(?P<slug>[\w-]+)/api/$', PostDetailAPIView.as_view(), name='detail-api'),
 ]
 
 # Old without slugs

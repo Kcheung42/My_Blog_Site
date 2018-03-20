@@ -11,6 +11,7 @@ from django.utils.safestring import mark_safe #turn strings to safe (render as h
 from django.utils.text import slugify
 from django_apps.comments.models import Comment #create @property of Post access comments
 from markdown_deux import markdown #third party library
+from django.dispatch import receiver
 import logging
 
 class PostManager(models.Manager): #allows us to ovewrite default model Manger functions i.e objects.all() objects.create()
@@ -23,7 +24,7 @@ def upload_location(instance, filename):
 # Create your models here.
 
 class Post(models.Model):
-	user		= models.ForeignKey(settings.AUTH_USER_MODEL, default=1) #
+	# Fields
 	title		= models.CharField(max_length=120)
 	slug		= models.SlugField(unique=True) #slugs are used to make urls friendly to read
 	image		= models.ImageField(null=True, blank=True,
@@ -38,6 +39,9 @@ class Post(models.Model):
 	publish		= models.DateField(auto_now=False, auto_now_add=False)
 	updated		= models.DateTimeField(auto_now=True, auto_now_add=False)
 	timestamp	= models.DateTimeField(auto_now=False, auto_now_add=True)
+
+	# Relationship Fields
+	user		= models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
 
 	objects = PostManager() #objects can be called something else but not recommended  queryset_list = Post.<objects>.all()
 

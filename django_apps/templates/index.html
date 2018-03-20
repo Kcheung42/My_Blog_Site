@@ -13,11 +13,18 @@
 
 {% block body %}
 	<h1>{{ title }}</h1>
-
 	<div id="react-root"></div>
+
 	{% render_bundle 'vendors' %}
 	{% render_bundle 'Index' %}
+
+	<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+		<input type="file" name="csv_file" />
+		<input type="submit" value="Upload" />
+	</form>
+
 	<div>
 		<a href={% url 'posts:list' %}>Go To Blog</a>
 	</div>
+
 {% endblock body %}

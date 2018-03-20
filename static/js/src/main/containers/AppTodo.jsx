@@ -19,16 +19,26 @@ import  VisibleTdoList  from  './VisibileTodoList'
 import  Footer  from  '../components/Footer'
 import AddTodo from './AddTodo'
 
-export class App1Container extends React.Component{
-	render(){
-		return(
-			<div>
-				<HelloWorld>Bambi</HelloWorld>
-				<Footer />
-				<VisibleTdoList />
-				<AddTodo />
-				<Toggle />
-			</div>
-		);
-	}
-}
+const App1Container = () => (
+	<div>
+		<HelloWorld>Bambi</HelloWorld>
+		<Footer />
+		<VisibleTdoList />
+		<AddTodo />
+		<Toggle />
+	</div>
+);
+
+export default App1Container
+//
+// const App1Container = ({}) => (
+// 	<div>
+// 		<HelloWorld>Bambi</HelloWorld>
+// 		<Footer />
+// 		<VisibleTdoList/>
+// 		<AddTodo />
+// 		<Toggle />
+// 	</div>
+// );
+//
+// export default App1Container

@@ -17,6 +17,7 @@ urlpatterns = [
 	url(r'^api-token-verify/', verify_jwt_token),
 	# our urls
 	url(r'^post/', include('django_apps.posts.urls', namespace='posts')), #Namespace used only with Sets of Urls
+	url(r'^api/post/', include('django_apps.posts.api.urls', namespace='posts-api'))
 ]
 
 if settings.DEBUG:

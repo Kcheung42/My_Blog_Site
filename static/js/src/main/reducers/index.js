@@ -6,20 +6,36 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 13:52:00 by kcheung           #+#    #+#             //
-//   Updated: 2018/01/17 21:34:00 by kcheung          ###   ########.fr       //
+//   Updated: 2018/03/15 10:04:30 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux'
 import visibilityFilter from './visibilityFilter'
 import todos from './todos'
 import user from './user'
+import auth, * as fromAuth from './auth.js'
 
-export const reducers = combineReducers({
+export default combineReducers({
 	user: user,
 	visibilityFilter: visibilityFilter,
-	todos: todos
+	todos: todos,
+	router: routerReducer,
 })
+
+export const isAuthenticated =
+	state => fromAuth.isAuthenticated(state.auth)
+export const accessToken =
+	state => fromAuth.accessToken(state.auth)
+export const isAccessTokenExpired =
+	state => fromAuth.isAccessTokenExpired(state.auth)
+export const refreshToken =
+	state => fromAuth.refreshToken(state.auth)
+export const isRefreshTokenExpired =
+	state => fromAuth.isRefreshTokenExpired(state.auth)
+export const authErrors =
+	state => fromAuth.errors(state.auth)
 
 // const initialState = {
 //visibilityFilter: VisibilityFilters.SHOW_ALL,

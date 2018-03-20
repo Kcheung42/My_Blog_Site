@@ -6,7 +6,7 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 13:51:44 by kcheung           #+#    #+#             //
-//   Updated: 2018/01/15 13:55:29 by kcheung          ###   ########.fr       //
+//   Updated: 2018/03/19 16:38:49 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -26,8 +26,8 @@ const todos = (state=[], action) => {
 		case types.TOGGLE_TODO:
 			return state.map((todo) =>
 				(todo.id === action.payload)
-					? {...todo, completed: !todo.completed}
-					: todo
+				? {...todo, completed: !todo.completed}
+				: todo
 			)
 		default:
 			return state
@@ -35,3 +35,7 @@ const todos = (state=[], action) => {
 }
 
 export default todos
+
+// reducers are functions that returns the next state
+// by looking at the previous state and an action that
+// describes how things should change

@@ -12,14 +12,10 @@ from django_apps.comments.forms import CommentForm
 from django_apps.comments.models import Comment
 from django_apps.posts.forms import PostForm
 from django_apps.posts.models import Post
-from django_apps.posts.serializers import PostDetailSerializer, PostListSerializer
 from urllib.parse import quote_plus #used for creating share strings
-from rest_framework.generics import (
-	ListAPIView,
-	RetrieveAPIView,
-	DestroyAPIView,
-	UpdateAPIView,
-)
+
+import csv
+import codecs
 
 # Create your views here.
 
@@ -149,25 +145,9 @@ def post_home(request): #C
 	context = {
 		"title": "Welcome to Bambo's Blog"
 	}
+	if request.POST and request.FILES:
+		csvfile = request.FILES['csv_file']
+		dialect = csv.Sniffer().sniff(codecs.EncodedFile(csvfile, "utf-8").read(1024))
+		csvfile.open()
+		reader = csv.reader(codecs.EncodedFile(csvfile, "utf-8"), delimiter=',', dialect=dialect)
 	return render(request, "index.html", context)
-
-# Below are views for Rest API
-class PostListAPIView(ListAPIView):
-	serializer_class = PostListSerializer #Turn model into Json
-	queryset = Post.objects.all() #must have queryset or overide get_querset() method
-	lookup_field = 'slug'
-
-	# search_fields = ['title']
-	# def get_queryset(self, *args, **kwargs):
-	# 	queryset_list = Post.objects.all()
-	# 	query = self.request.Get.get("q")
-	# 	if query:
-	# 		query_list = queryset_list.filter(
-	# 				Q(title__icontains=query)).distinct()
-	# 	return query_list
-
-class PostDetailAPIView(RetrieveAPIView):
-	serializer_class = PostDetailSerializer
-	queryset = Post.objects.all()
-	lookup_field = 'slug'
-

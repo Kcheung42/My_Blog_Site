@@ -6,7 +6,7 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 11:38:09 by kcheung           #+#    #+#             //
-//   Updated: 2018/01/15 12:09:41 by kcheung          ###   ########.fr       //
+//   Updated: 2018/03/14 19:16:31 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,26 +17,25 @@ import { addToDo } from '../actions'
 
 let AddTodo = ({subscribe, dispatch} ) =>{
 	let input
-
 	return(
 		<div>
-		<form
-			onSubmit={e => {
-				e.preventDefault()
-				if(!input.value.trim()){
-					return
-				}
-				dispatch(addToDo(input.value))
-				input.value = ''
-			}}
-		>
-			<input
-				ref={node => {
-					input = node
+			<form
+				onSubmit={e => {
+					e.preventDefault()
+					if(!input.value.trim()){
+						return
+					}
+					dispatch(addToDo(input.value))
+					input.value = ''
 				}}
-			/>
-			<button type="submit">Add Task</button>
-		</form>
+			>
+				<input
+					ref={node => {
+						input = node
+					}}
+				/>
+				<button type="submit">Add Task</button>
+			</form>
 		</div>
 	)
 }

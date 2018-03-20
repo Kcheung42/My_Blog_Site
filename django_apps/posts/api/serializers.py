@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField
-from .models import Post
+from django_apps.posts.models import Post
 
 # post_detail_url = HyperlinkedIdentityField(
 # 		view_name='post:PostListAPi',
@@ -15,7 +15,8 @@ class PostDetailSerializer(ModelSerializer):
 	# url = post_detail_url
 	class Meta:
 		model = Post
-		fields = [
-				'title',
-				'content',
-]
+		fields = '__all__'
+		# fields = [
+		# 		'title',
+		# 		'content',
+# ]
