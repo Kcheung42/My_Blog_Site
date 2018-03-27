@@ -6,6 +6,7 @@ import { persistReducer, persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
 import rootReducer from '../reducers'
 
+
 export default (history) => {
 	const persistedFilter = createFilter(
 		'auth', ['access', 'refresh']);

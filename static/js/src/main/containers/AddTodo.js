@@ -6,7 +6,7 @@
 //   By: kcheung <kcheung@42.fr>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2018/01/15 11:38:09 by kcheung           #+#    #+#             //
-//   Updated: 2018/03/14 19:16:31 by kcheung          ###   ########.fr       //
+//   Updated: 2018/03/26 17:08:43 by kcheung          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { addToDo } from '../actions'
 
-let AddTodo = ({subscribe, dispatch} ) =>{
+let AddTodo = ({dispatch} ) =>{
 	let input
 	return(
 		<div>

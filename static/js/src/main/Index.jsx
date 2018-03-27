@@ -10,7 +10,7 @@
 //                                                                            //
 // ************************************************************************** //
 
-import React from 'react';
+import React, { createContext } from 'react';
 import reducer from './reducers';
 import AppTodo from './containers/AppTodo';
 import { Provider } from 'react-redux';
@@ -40,7 +40,22 @@ import configureStore from './store'
 
 // const history = createHistory()
 // const store = configureStore(history)
+async componentDidMount() {
+try {
+	const res = await fetch('http://127.0.0.1:8000/api/');
+	const todos = await res.json();
+	this.setState({
+		todos
+	});
+} catch (e) {
+	console.log(e);
+}
+}
 const store = createStore(reducer);
+
+// const ApplicationContext = createContext();
+// const initialState = {
+// }
 
 render(
 	<Provider store={store}>
