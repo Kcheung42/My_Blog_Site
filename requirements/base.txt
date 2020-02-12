@@ -1,6 +1,6 @@
 # Django
 # django==1.11.5
-django==1.9
+django==1.11.28
 
 # Configuration
 dj-database-url==0.4.1
